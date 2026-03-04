@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>패널 상세 - 리서치이노션 CMS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700&display=swap" rel="stylesheet" />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    "Pretendard",
+                    -apple-system,
+                    "Noto Sans KR",
+                    sans-serif;
+                font-size: 14px;
+                color: #4d5053;
+                background: #fff;
+                min-height: 100vh;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* ── CONTAINER SYSTEM ────────────────────────── */
+            .container {
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            /* xs: None (auto) - default, no max-width */
+
+            /* sm: ≥576px */
+            @media (min-width: 576px) {
+                .container {
+                    max-width: 540px;
+                }
+            }
+
+            /* md: ≥768px */
+            @media (min-width: 768px) {
+                .container {
+                    max-width: 720px;
+                }
+            }
+
+            /* lg: ≥992px */
+            @media (min-width: 992px) {
+                .container {
+                    max-width: 960px;
+                }
+            }
+
+            /* xl: ≥1200px */
+            @media (min-width: 1200px) {
+                .container {
+                    max-width: 1140px;
+                }
+            }
+
+            /* xxl: ≥1400px */
+            @media (min-width: 1400px) {
+                .container {
+                    max-width: 1320px;
+                }
+            }
+
+            /* ── TOP NAV ─────────────────────────────────── */
+            .top-nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 200;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 72px;
+                background: #fff;
+                border-bottom: 1px solid #e4e7eb;
+                padding: 0 20px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            }
+            .logo {
+                font-size: 16px;
+                font-weight: 700;
+                color: #1ab394;
+                white-space: nowrap;
+                cursor: pointer;
+                flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .nav-items {
+                display: flex;
+                align-items: center;
+                flex: 1;
+                justify-content: center;
+            }
+            .nav-item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 72px;
+                padding: 0 36px;
+                font-size: 18px;
+                font-weight: 700;
+                color: #4d5053;
+                cursor: pointer;
+                white-space: nowrap;
+                position: relative;
+                transition: color 0.15s;
+                text-decoration: none;
+            }
+            .nav-item:hover {
+                color: #1ab394;
+            }
+            .nav-item.active {
+                color: #1ab394;
+            }
+            .nav-item.active::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: #1ab394;
+            }
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                padding: 8px;
+                border-radius: 4px;
+                background: #75787b;
+                color: #fff;
+                font-size: 16px;
+                font-weight: 400;
+                cursor: pointer;
+                border: none;
+                font-family: inherit;
+                width: 176px;
+                height: 40px;
+            }
+            .logout-btn:hover {
+                background: #5e6164;
+            }
+
+            /* Mobile Menu Toggle */
+            .mobile-menu-toggle {
+                display: none;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 8px;
+            }
+            .mobile-menu-toggle svg {
+                width: 24px;
+                height: 24px;
+                stroke: #4d5053;
+            }
+
+            /* ── LAYOUT ──────────────────────────────────── */
+            .layout {
+                display: flex;
+                padding-top: 72px;
+                min-height: 100vh;
+                background: #fff;
+            }
+
+            /* ── SIDEBAR ─────────────────────────────────── */
+            .sidebar {
+                position: fixed;
+                top: 72px;
+                left: 0;
+                bottom: 0;
+                width: 260px;
+                background: #fafbfc;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.08);
+                padding: 16px;
+                z-index: 100;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                overflow-y: auto;
+                transition: transform 0.3s ease;
+            }
+            .sidebar-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 8px;
+                margin-bottom: 0;
+            }
+            .sidebar-header h3 {
+                font-size: 18px;
+                font-weight: 700;
+                color: #4d5053;
+            }
+            .sidebar-header .toggle-icon {
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transform: rotate(90deg);
+                cursor: pointer;
+            }
+            .sidebar-item {
+                padding: 8px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 700;
+                color: #75787b;
+                transition:
+                    background 0.15s,
+                    color 0.15s;
+                text-decoration: none;
+                display: block;
+            }
+            .sidebar-item:hover {
+                background: #edf0f3;
+            }
+            .sidebar-item.active {
+                background: #edf0f3;
+                color: #75787b;
+            }
+
+            /* Sidebar Overlay for Mobile */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 72px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+            }
+
+            /* ── MAIN ────────────────────────────────────── */
+            .main-content {
+                margin-left: 260px;
+                flex: 1;
+                padding: 32px 36px 40px;
+                min-width: 0;
+                background: #fff;
+                transition: margin-left 0.3s ease;
+            }
+            .page-title {
+                font-size: 24px;
+                font-weight: 700;
+                color: #4d5053;
+                margin-bottom: 24px;
+            }
+
+            /* ── FORM SECTION ────────────────────────────── */
+            .form-section {
+                background: #fff;
+                border-radius: 4px;
+                border: 1px solid #d9dcdf;
+                overflow: hidden;
+                margin-bottom: 16px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .form-tbl {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .form-tbl tr {
+                border-bottom: 1px solid #d9dcdf;
+            }
+            .form-tbl tr:last-child {
+                border-bottom: none;
+            }
+            .form-tbl td {
+                padding: 16px;
+                border-right: 1px solid #d9dcdf;
+                font-size: 16px;
+                vertical-align: middle;
+            }
+            .form-tbl td:last-child {
+                border-right: none;
+            }
+            .fl {
+                background: #edf0f3;
+                color: #4d5053;
+                font-weight: 700;
+                white-space: nowrap;
+                width: 200px;
+            }
+            .fl .optional {
+                font-weight: 400;
+                color: #9da0a3;
+            }
+            .fv {
+                background: #fff;
+                color: #75787b;
+            }
+            .fv input[type="text"],
+            .fv input[type="email"] {
+                border: 1px solid #d9dcdf;
+                border-radius: 4px;
+                padding: 8px;
+                font-size: 16px;
+                font-family: inherit;
+                color: #75787b;
+                outline: none;
+                background: #fff;
+                max-width: 100%;
+            }
+            .fv input:focus {
+                border-color: #1ab394;
+            }
+            .fv select {
+                border: 1px solid #d9dcdf;
+                border-radius: 4px;
+                padding: 8px;
+                font-size: 16px;
+                font-family: inherit;
+                color: #75787b;
+                outline: none;
+                cursor: pointer;
+                background: #fff;
+                max-width: 100%;
+            }
+            .fv select:focus {
+                border-color: #1ab394;
+            }
+
+            /* ── RADIO BUTTONS ───────────────────────────── */
+            .radio-grp {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px;
+                flex-wrap: wrap;
+            }
+            .radio-grp label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+                font-size: 16px;
+                color: #9da0a3;
+                padding: 8px;
+            }
+            .radio-grp input[type="radio"] {
+                appearance: none;
+                width: 16px;
+                height: 16px;
+                border: 1px solid #9da0a3;
+                border-radius: 50%;
+                cursor: pointer;
+                position: relative;
+                background: #fff;
+                flex-shrink: 0;
+            }
+            .radio-grp input[type="radio"]:checked {
+                border-color: #1ab394;
+            }
+            .radio-grp input[type="radio"]:checked::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #1ab394;
+            }
+            .radio-grp label:has(input:checked) {
+                color: #1ab394;
+            }
+
+            /* ── BUTTONS ─────────────────────────────────── */
+            .addr-btn {
+                border: 1px solid #1ab394;
+                border-radius: 4px;
+                padding: 8px;
+                background: #fff;
+                cursor: pointer;
+                font-size: 16px;
+                color: #1ab394;
+                font-family: inherit;
+                font-weight: 400;
+            }
+            .addr-btn:hover {
+                background: #f0faf8;
+            }
+            .btn-outline {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                border: 1px solid #1ab394;
+                border-radius: 4px;
+                padding: 8px;
+                background: #fff;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 14px;
+                color: #1ab394;
+                font-weight: 400;
+            }
+            .btn-outline:hover {
+                background: #f0faf8;
+            }
+
+            /* ── TABS ────────────────────────────────────── */
+            .tab-section {
+                margin-top: 24px;
+                background: #fff;
+                border-radius: 4px;
+                border: 1px solid #d9dcdf;
+                overflow: hidden;
+            }
+            .tab-bar {
+                display: flex;
+                border-bottom: 2px solid #e4e7eb;
+                background: #fff;
+                overflow-x: auto;
+            }
+            .tab-item {
+                padding: 12px 18px;
+                font-size: 16px;
+                font-weight: 500;
+                color: #9da0a3;
+                cursor: pointer;
+                border-bottom: 2px solid transparent;
+                margin-bottom: -2px;
+                transition: all 0.15s;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+            .tab-item:hover {
+                color: #4d5053;
+            }
+            .tab-item.active {
+                color: #1ab394;
+                border-bottom-color: #1ab394;
+                font-weight: 700;
+            }
+            .tab-content {
+                padding: 16px;
+                background: #fff;
+                overflow-x: auto;
+            }
+            .tab-pane {
+                display: none;
+            }
+            .tab-pane.active {
+                display: block;
+            }
+
+            /* ── DATA TABLE ──────────────────────────────── */
+            .data-tbl {
+                width: 100%;
+                border-collapse: collapse;
+                min-width: 600px;
+            }
+            .data-tbl thead {
+                background: #edf0f3;
+            }
+            .data-tbl thead th {
+                padding: 12px 16px;
+                font-size: 16px;
+                font-weight: 700;
+                color: #4d5053;
+                border-right: 1px solid #d9dcdf;
+                border-bottom: 1px solid #d9dcdf;
+                text-align: center;
+            }
+            .data-tbl thead th:last-child {
+                border-right: none;
+            }
+            .data-tbl tbody tr {
+                border-bottom: 1px solid #d9dcdf;
+            }
+            .data-tbl tbody tr:last-child {
+                border-bottom: none;
+            }
+            .data-tbl tbody td {
+                padding: 12px 16px;
+                font-size: 16px;
+                color: #75787b;
+                border-right: 1px solid #d9dcdf;
+                text-align: center;
+            }
+            .data-tbl tbody td:last-child {
+                border-right: none;
+            }
+            .data-tbl tbody td.left {
+                text-align: left;
+            }
+            .empty-state {
+                text-align: center;
+                padding: 40px;
+                color: #9da0a3;
+                font-size: 16px;
+            }
+
+            /* ── ACTION BUTTONS ──────────────────────────── */
+            .action-buttons {
+                display: flex;
+                gap: 8px;
+                margin-top: 24px;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+            }
+            .btn-danger {
+                background: #e74c3c;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 16px;
+                color: #fff;
+                font-weight: 400;
+            }
+            .btn-danger:hover {
+                background: #c0392b;
+            }
+            .btn-gray {
+                border: 1px solid #d9dcdf;
+                border-radius: 4px;
+                padding: 8px 16px;
+                background: #fff;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 16px;
+                color: #75787b;
+                font-weight: 400;
+            }
+            .btn-gray:hover {
+                background: #f5f5f5;
+            }
+            .btn-primary {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                background: #1ab394;
+                border: none;
+                border-radius: 4px;
+                padding: 8px 16px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 16px;
+                color: #fff;
+                font-weight: 400;
+            }
+            .btn-primary:hover {
+                background: #169e82;
+            }
+
+            /* ── UTILITY ─────────────────────────────────── */
+            .flex-row {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+            .check-icon {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                color: #1ab394;
+                font-size: 14px;
+            }
+            .status-text {
+                color: #1ab394;
+                font-weight: 700;
+            }
+            .date-text {
+                color: #9da0a3;
+                font-size: 14px;
+            }
+            .info-text {
+                color: #75787b;
+                font-size: 14px;
+            }
+
+            /* ── SCROLLBAR ───────────────────────────────── */
+            ::-webkit-scrollbar {
+                width: 5px;
+                height: 5px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #f0f2f5;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #c9cdd2;
+                border-radius: 3px;
+            }
+
+            /* ══════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS
+    ══════════════════════════════════════════════ */
+
+            /* ── TABLET & BELOW (lg: <992px) ────────────── */
+            @media (max-width: 991px) {
+                .nav-item {
+                    padding: 0 16px;
+                    font-size: 16px;
+                }
+
+                .main-content {
+                    margin-left: 0;
+                    padding: 24px 20px;
+                }
+
+                .sidebar {
+                    transform: translateX(-100%);
+                }
+
+                .sidebar.open {
+                    transform: translateX(0);
+                }
+
+                .sidebar-overlay.show {
+                    display: block;
+                }
+
+                .mobile-menu-toggle {
+                    display: block;
+                }
+
+                .page-title {
+                    font-size: 20px;
+                }
+
+                /* Stack table rows on smaller screens */
+                .form-tbl tr {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .form-tbl td {
+                    width: 100% !important;
+                    border-right: none;
+                    border-bottom: 1px solid #d9dcdf;
+                }
+
+                .form-tbl td:last-child {
+                    border-bottom: none;
+                }
+
+                .fl {
+                    font-size: 14px;
+                    padding: 12px;
+                }
+
+                .fv {
+                    padding: 12px;
+                }
+            }
+
+            /* ── MOBILE (md: <768px) ────────────────────── */
+            @media (max-width: 767px) {
+                .top-nav {
+                    padding: 0 12px;
+                }
+
+                .logo {
+                    font-size: 14px;
+                }
+
+                .nav-items {
+                    display: none;
+                }
+
+                .logout-btn {
+                    width: auto;
+                    padding: 8px 12px;
+                    font-size: 14px;
+                }
+
+                .logout-btn svg {
+                    display: none;
+                }
+
+                .main-content {
+                    padding: 16px 12px;
+                }
+
+                .page-title {
+                    font-size: 18px;
+                    margin-bottom: 16px;
+                }
+
+                .form-section {
+                    margin-bottom: 12px;
+                }
+
+                .tab-item {
+                    padding: 10px 12px;
+                    font-size: 14px;
+                }
+
+                .tab-content {
+                    padding: 12px;
+                }
+
+                .action-buttons {
+                    justify-content: stretch;
+                }
+
+                .action-buttons button {
+                    flex: 1;
+                    justify-content: center;
+                }
+
+                .data-tbl {
+                    font-size: 14px;
+                }
+
+                .data-tbl thead th,
+                .data-tbl tbody td {
+                    padding: 8px;
+                    font-size: 14px;
+                }
+            }
+
+            /* ── SMALL MOBILE (sm: <576px) ──────────────── */
+            @media (max-width: 575px) {
+                .top-nav {
+                    height: 60px;
+                }
+
+                .layout {
+                    padding-top: 60px;
+                }
+
+                .sidebar {
+                    top: 60px;
+                }
+
+                .sidebar-overlay {
+                    top: 60px;
+                }
+
+                .main-content {
+                    padding: 12px 8px;
+                }
+
+                .form-tbl td {
+                    padding: 10px;
+                }
+
+                .fl,
+                .fv {
+                    font-size: 14px;
+                }
+
+                .fv input[type="text"],
+                .fv input[type="email"],
+                .fv select {
+                    font-size: 14px;
+                }
+
+                .tab-section {
+                    margin-top: 16px;
+                }
+
+                .action-buttons {
+                    margin-top: 16px;
+                    gap: 6px;
+                }
+
+                .action-buttons button {
+                    padding: 8px 12px;
+                    font-size: 14px;
+                }
+            }
+
+            /* ── DESKTOP OPTIMIZATION (xl: ≥1200px) ─────── */
+            @media (min-width: 1200px) {
+                .main-content {
+                    padding: 32px 36px 40px;
+                }
+            }
+
+            /* ── LARGE DESKTOP (xxl: ≥1400px) ───────────── */
+            @media (min-width: 1400px) {
+                .container {
+                    max-width: 1320px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="top-nav">
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="logo" onclick="top.location.href = 'panel-info.html'">리서치이노션 CMS</div>
+
+            <div class="nav-items">
+                <a class="nav-item" href="calendar.html" target="_top">예약 캘린더</a>
+                <a class="nav-item" href="survey-list.html" target="_top">설문 관리</a>
+                <a class="nav-item active" href="panel-info.html" target="_top">패널 관리</a>
+                <a class="nav-item" href="homepage.html" target="_top">홈페이지 관리</a>
+                <a class="nav-item" href="board-notice.html" target="_top">통합 게시판 관리</a>
+                <a class="nav-item" href="content-list.html" target="_top">콘텐츠 관리</a>
+                <a class="nav-item" href="layout-main.html" target="_top">레이아웃 관리</a>
+                <a class="nav-item" href="system-admin.html" target="_top">시스템 관리</a>
+                <a class="nav-item" href="stats-panel.html" target="_top">통계</a>
+            </div>
+
+            <button class="logout-btn" onclick="alert('로그아웃')">
+                로그아웃
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+            </button>
+        </nav>
+
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <div class="layout">
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h3>패널 관리</h3>
+                    <div class="toggle-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M15 18l-6-6 6-6" stroke="#4d5053" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                </div>
+                <a class="sidebar-item active" href="panel-info.html" target="_top">패널 정보</a>
+                <a class="sidebar-item" href="panel-join-change.html" target="_top">가입 변경</a>
+                <a class="sidebar-item" href="panel-access.html" target="_top">패널 접속</a>
+                <a class="sidebar-item" href="panel-inquiry.html" target="_top">문의하기</a>
+                <a class="sidebar-item" href="panel-sms-history.html" target="_top">문자 발송 내역</a>
+            </aside>
+
+            <main class="main-content">
+                <div class="container">
+                    <h1 class="page-title">패널 정보</h1>
+
+                    <div class="form-section">
+                        <table class="form-tbl">
+                            <tr>
+                                <td class="fl">패널구분<span class="optional">(선택)</span></td>
+                                <td class="fv">
+                                    <select style="width: 200px">
+                                        <option>시외패널</option>
+                                        <option>시내패널</option>
+                                    </select>
+                                </td>
+                                <td class="fl">상태(일시)</td>
+                                <td class="fv">
+                                    <span class="status-text">사용</span>
+                                    <span class="date-text">(2025-01-21 15:32:57)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fl">패널명</td>
+                                <td class="fv">
+                                    <input type="text" value="홍길동" style="width: 200px" />
+                                </td>
+                                <td class="fl">아이디</td>
+                                <td class="fv">
+                                    <span class="info-text">ghdrlfehd1234</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fl">생년월일</td>
+                                <td class="fv">
+                                    <span class="info-text">2000-00-00 (만 00세)</span>
+                                </td>
+                                <td class="fl">성별</td>
+                                <td class="fv">
+                                    <div class="radio-grp">
+                                        <label>
+                                            <input type="radio" name="gender" value="m" checked />
+                                            <span>남자</span>
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="gender" value="f" />
+                                            <span>여자</span>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fl">휴대전화</td>
+                                <td class="fv" colspan="3">
+                                    <div class="flex-row">
+                                        <input type="text" value="010-0000-0000" style="width: 200px" />
+                                        <span class="check-icon">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </svg>
+                                            문자 수신 동의
+                                        </span>
+                                        <button class="btn-outline">확인 문자 발송</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fl">확인 문자<span class="optional">(필수)</span></td>
+                                <td class="fv" colspan="3">
+                                    <input type="text" value="2015602" style="width: 150px" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fl">이메일<span class="optional">(선택)</span></td>
+                                <td class="fv" colspan="3">
+                                    <input type="email" value="ghdrlfehd1234@naver.com" style="width: 320px" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fl">주소</td>
+                                <td class="fv" colspan="3">
+                                    <div class="flex-row" style="margin-bottom: 8px">
+                                        <button class="addr-btn">주소검색</button>
+                                        <input type="text" value="04749" style="width: 100px" />
+                                    </div>
+                                    <input type="text" value="서울 성동구 아차산로 103" style="width: 100%; margin-bottom: 8px" />
+                                    <input type="text" placeholder="수동 50번길" style="width: 100%" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fl">직업군</td>
+                                <td class="fv">
+                                    <select style="width: 200px">
+                                        <option>직업군</option>
+                                        <option>사무직</option>
+                                        <option>전문직</option>
+                                    </select>
+                                </td>
+                                <td class="fl">가입경로<span class="optional">(선택)</span></td>
+                                <td class="fv">
+                                    <select style="width: 200px">
+                                        <option>홈페이지</option>
+                                        <option>SNS</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fl">추천인<span class="optional">(선택)</span></td>
+                                <td class="fv">
+                                    <input type="text" value="김세" style="width: 200px" />
+                                </td>
+                                <td class="fl">등록일시</td>
+                                <td class="fv">
+                                    <span class="info-text">2025-02-27 14:00:00 (관리자)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fl">수정일시</td>
+                                <td class="fv" colspan="3">
+                                    <span class="info-text">2025-02-27 14:00:00 (관리자)</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="tab-section">
+                        <div class="tab-bar">
+                            <div class="tab-item active" onclick="switchTab(event, 'tab-history')">참여된 조사</div>
+                            <div class="tab-item" onclick="switchTab(event, 'tab-change')">가입변경</div>
+                            <div class="tab-item" onclick="switchTab(event, 'tab-manage')">패널관리</div>
+                            <div class="tab-item" onclick="switchTab(event, 'tab-sms')">문자발송</div>
+                            <div class="tab-item" onclick="switchTab(event, 'tab-inquiry')">나의문의</div>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab-history">
+                                <table class="data-tbl">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 60px">NO</th>
+                                            <th>설문명</th>
+                                            <th style="width: 180px">완료일시</th>
+                                            <th style="width: 100px">완성여부</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>2</td>
+                                            <td class="left">공원 시설 선호도 조사</td>
+                                            <td>2025-02-27 14:00:00</td>
+                                            <td>완료</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td class="left">공원 시설 선호도 조사</td>
+                                            <td>2025-02-27 14:00:00</td>
+                                            <td>완료</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane" id="tab-change">
+                                <div class="empty-state">데이터가 없습니다.</div>
+                            </div>
+                            <div class="tab-pane" id="tab-manage">
+                                <div class="empty-state">데이터가 없습니다.</div>
+                            </div>
+                            <div class="tab-pane" id="tab-sms">
+                                <div class="empty-state">데이터가 없습니다.</div>
+                            </div>
+                            <div class="tab-pane" id="tab-inquiry">
+                                <div class="empty-state">데이터가 없습니다.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-danger">삭제</button>
+                        <button class="btn-gray" onclick="top.location.href = 'panel-info.html'">취소</button>
+                        <button class="btn-primary">저장하기</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <script>
+            function toggleSidebar() {
+                const sidebar = document.getElementById("sidebar");
+                const overlay = document.querySelector(".sidebar-overlay");
+
+                sidebar.classList.toggle("open");
+                overlay.classList.toggle("show");
+            }
+
+            function switchTab(event, tabId) {
+                // Remove active from all tabs
+                document.querySelectorAll(".tab-pane").forEach((pane) => {
+                    pane.classList.remove("active");
+                });
+                document.querySelectorAll(".tab-item").forEach((item) => {
+                    item.classList.remove("active");
+                });
+
+                // Add active to selected tab
+                document.getElementById(tabId).classList.add("active");
+                event.target.classList.add("active");
+            }
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener("click", function (e) {
+                const sidebar = document.getElementById("sidebar");
+                const toggle = document.querySelector(".mobile-menu-toggle");
+
+                if (window.innerWidth < 992 && sidebar.classList.contains("open") && !sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    toggleSidebar();
+                }
+            });
+        </script>
+    </body>
+</html>
