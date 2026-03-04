@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>패널 접속 - 리서치이노션 CMS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700&display=swap" rel="stylesheet" />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    "Pretendard",
+                    -apple-system,
+                    "Noto Sans KR",
+                    sans-serif;
+                font-size: 14px;
+                color: #4d5053;
+                background: #edf0f3;
+                min-height: 100vh;
+            }
+            .top-nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 200;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 72px;
+                background: #fff;
+                border-bottom: 1px solid #e4e7eb;
+                padding: 0 20px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            }
+            .logo {
+                font-size: 16px;
+                font-weight: 700;
+                color: #1ab394;
+                cursor: pointer;
+            }
+            .nav-items {
+                display: flex;
+                align-items: center;
+                flex: 1;
+                justify-content: center;
+            }
+            .nav-item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 72px;
+                padding: 0 36px;
+                font-size: 18px;
+                font-weight: 700;
+                color: #4d5053;
+                cursor: pointer;
+                position: relative;
+                transition: color 0.15s;
+                text-decoration: none;
+            }
+            .nav-item:hover {
+                color: #1ab394;
+            }
+            .nav-item.active {
+                color: #1ab394;
+            }
+            .nav-item.active::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: #1ab394;
+            }
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                background: #75787b;
+                color: #fff;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 16px;
+                font-weight: 400;
+            }
+            .logout-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+            .layout {
+                display: flex;
+                padding-top: 72px;
+                min-height: 100vh;
+            }
+            .sidebar {
+                position: fixed;
+                top: 72px;
+                left: 0;
+                bottom: 0;
+                width: 260px;
+                background: #fafbfc;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.08);
+                padding: 16px;
+                z-index: 100;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                overflow-y: auto;
+            }
+            .sidebar-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                padding: 8px;
+            }
+            .sidebar-title {
+                font-size: 18px;
+                font-weight: 700;
+                color: #4d5053;
+            }
+            .sidebar-toggle {
+                cursor: pointer;
+                color: #4d5053;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .sidebar-item {
+                padding: 8px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 700;
+                color: #75787b;
+                transition:
+                    background 0.15s,
+                    color 0.15s;
+                text-decoration: none;
+                display: block;
+            }
+            .sidebar-item:hover {
+                background: #edf0f3;
+                color: #4d5053;
+            }
+            .sidebar-item.active {
+                background: #edf0f3;
+                color: #4d5053;
+            }
+            .main-content {
+                margin-left: 260px;
+                flex: 1;
+                padding: 32px 36px 40px;
+                background: #edf0f3;
+            }
+            .page-title {
+                font-size: 24px;
+                font-weight: 700;
+                color: #4d5053;
+                margin-bottom: 24px;
+            }
+            .placeholder-box {
+                background: #fff;
+                border-radius: 8px;
+                border: 1px dashed #d9dcdf;
+                padding: 60px 40px;
+                text-align: center;
+                color: #9da0a3;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .placeholder-box svg {
+                width: 48px;
+                height: 48px;
+                margin-bottom: 16px;
+                color: #d9dcdf;
+            }
+            .placeholder-box p {
+                font-size: 16px;
+                font-weight: 500;
+            }
+            .placeholder-box span {
+                font-size: 14px;
+            }
+            ::-webkit-scrollbar {
+                width: 5px;
+                height: 5px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #f0f2f5;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #c9cdd2;
+                border-radius: 3px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="top-nav">
+            <div class="logo" onclick="top.location.href = 'panel-info.html'">리서치이노션 CMS</div>
+            <div class="nav-items">
+                <a class="nav-item" href="calendar.html" target="_top">예약 캘린더</a>
+                <a class="nav-item" href="survey-list.html" target="_top">설문 관리</a>
+                <a class="nav-item active" href="panel-info.html" target="_top">패널 관리</a>
+                <a class="nav-item" href="homepage.html" target="_top">홈페이지 관리</a>
+                <a class="nav-item" href="board-notice.html" target="_top">통합 게시판 관리</a>
+                <a class="nav-item" href="content-list.html" target="_top">콘텐츠 관리</a>
+                <a class="nav-item" href="layout-main.html" target="_top">레이아웃 관리</a>
+                <a class="nav-item" href="system-admin.html" target="_top">시스템 관리</a>
+                <a class="nav-item" href="stats-panel.html" target="_top">통계</a>
+            </div>
+            <button class="logout-btn">
+                로그아웃
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+            </button>
+        </nav>
+
+        <div class="layout">
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-title">패널 관리</div>
+                    <div class="sidebar-toggle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <a class="sidebar-item" href="panel-info.html" target="_top">패널 정보</a>
+                <a class="sidebar-item" href="panel-join-change.html" target="_top">가입 변경</a>
+                <a class="sidebar-item active" href="panel-access.html" target="_top">패널 접속</a>
+                <a class="sidebar-item" href="panel-inquiry.html" target="_top">문의하기</a>
+                <a class="sidebar-item" href="panel-sms-history.html" target="_top">문자 발송 내역</a>
+            </aside>
+
+            <main class="main-content">
+                <h1 class="page-title">패널 접속</h1>
+                <div class="placeholder-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    <p>패널 접속</p>
+                    <br />
+                    <span>패널 접속 내역을 관리합니다.</span>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

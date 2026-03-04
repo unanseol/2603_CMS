@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>패널 정보 - 리서치이노션 CMS</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700&display=swap" rel="stylesheet" />
+        <style>
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    "Pretendard",
+                    -apple-system,
+                    "Noto Sans KR",
+                    sans-serif;
+                font-size: 14px;
+                color: #4d5053;
+                background: #edf0f3;
+                min-height: 100vh;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* ── TOP NAV ─────────────────────────────────── */
+            .top-nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 200;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 72px;
+                background: #fff;
+                border-bottom: 1px solid #e4e7eb;
+                padding: 0 20px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            }
+            .logo {
+                font-size: 16px;
+                font-weight: 700;
+                color: #1ab394;
+                white-space: nowrap;
+                cursor: pointer;
+                flex-shrink: 0;
+            }
+            .nav-items {
+                display: flex;
+                align-items: center;
+                flex: 1;
+                justify-content: center;
+            }
+            .nav-item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 72px;
+                padding: 0 36px;
+                font-size: 18px;
+                font-weight: 700;
+                color: #4d5053;
+                cursor: pointer;
+                white-space: nowrap;
+                position: relative;
+                transition: color 0.15s;
+                text-decoration: none;
+            }
+            .nav-item:hover {
+                color: #1ab394;
+            }
+            .nav-item.active {
+                color: #1ab394;
+            }
+            .nav-item.active::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: #1ab394;
+            }
+            .logout-btn {
+                display: flex;
+                align-items: center;
+                gap: 4px;
+                background: #75787b;
+                color: #fff;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 16px;
+                white-space: nowrap;
+                flex-shrink: 0;
+                font-weight: 400;
+            }
+            .logout-btn:hover {
+                background: #62656a;
+            }
+            .logout-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            /* ── LAYOUT ──────────────────────────────────── */
+            .layout {
+                display: flex;
+                padding-top: 72px;
+                min-height: 100vh;
+            }
+
+            /* ── SIDEBAR ─────────────────────────────────── */
+            .sidebar {
+                position: fixed;
+                top: 72px;
+                left: 0;
+                bottom: 0;
+                width: 260px;
+                background: #fafbfc;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.08);
+                padding: 16px;
+                z-index: 100;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                overflow-y: auto;
+            }
+            .sidebar-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                padding: 8px;
+                margin-bottom: 0;
+            }
+            .sidebar-title {
+                font-size: 18px;
+                font-weight: 700;
+                color: #4d5053;
+            }
+            .sidebar-toggle {
+                cursor: pointer;
+                color: #4d5053;
+                width: 24px;
+                height: 24px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .sidebar-item {
+                padding: 8px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 700;
+                color: #75787b;
+                transition:
+                    background 0.15s,
+                    color 0.15s;
+                text-decoration: none;
+                display: block;
+            }
+            .sidebar-item:hover {
+                background: #edf0f3;
+                color: #4d5053;
+            }
+            .sidebar-item.active {
+                background: #edf0f3;
+                color: #4d5053;
+            }
+
+            /* ── MAIN ────────────────────────────────────── */
+            .main-content {
+                margin-left: 260px;
+                flex: 1;
+                padding: 32px 36px 40px;
+                min-width: 0;
+                background: #edf0f3;
+            }
+            .page-title {
+                font-size: 24px;
+                font-weight: 700;
+                color: #4d5053;
+                margin-bottom: 24px;
+            }
+
+            /* ── FILTER BOX ──────────────────────────────── */
+            .filter-box {
+                background: #fff;
+                border-radius: 4px;
+                padding: 16px 24px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                margin-bottom: 16px;
+                flex-wrap: wrap;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            .filter-rows {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                flex: 1;
+            }
+            .filter-row {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+            .filter-label {
+                font-size: 14px;
+                font-weight: 700;
+                color: #75787b;
+                white-space: nowrap;
+            }
+            .filter-control {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .date-btn {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                border: 1px solid #d9dcdf;
+                border-radius: 4px;
+                padding: 2px 8px;
+                background: #fff;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 14px;
+                color: #9da0a3;
+                height: 25px;
+            }
+            .date-btn svg {
+                width: 14px;
+                height: 14px;
+            }
+            .filter-sep {
+                font-size: 14px;
+                color: #9da0a3;
+            }
+            .sel {
+                border: 1px solid #d9dcdf;
+                border-radius: 4px;
+                padding: 2px 8px;
+                background: #fff;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 14px;
+                color: #9da0a3;
+                appearance: none;
+                padding-right: 26px;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239DA0A3' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 6px center;
+                height: 25px;
+            }
+            .sel:focus {
+                outline: none;
+                border-color: #1ab394;
+            }
+            .txt-sm {
+                border: 1px solid #d9dcdf;
+                border-radius: 4px;
+                padding: 2px 8px;
+                width: 118px;
+                font-family: inherit;
+                font-size: 14px;
+                color: #4d5053;
+                outline: none;
+                height: 25px;
+            }
+            .txt-sm:focus {
+                border-color: #1ab394;
+            }
+            .txt-xs {
+                border: 1px solid #d9dcdf;
+                border-radius: 4px;
+                padding: 2px 6px;
+                width: 50px;
+                font-family: inherit;
+                font-size: 14px;
+                color: #4d5053;
+                outline: none;
+                height: 25px;
+            }
+            .txt-xs:focus {
+                border-color: #1ab394;
+            }
+            .btn-actions {
+                display: flex;
+                gap: 8px;
+                flex-shrink: 0;
+            }
+            .btn-reset {
+                border: 1px solid #75787b;
+                border-radius: 4px;
+                padding: 8px;
+                background: #fff;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 16px;
+                color: #75787b;
+                font-weight: 400;
+            }
+            .btn-reset:hover {
+                background: #f5f5f5;
+            }
+            .btn-search {
+                background: #1ab394;
+                border: none;
+                border-radius: 4px;
+                padding: 8px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 16px;
+                color: #fff;
+                font-weight: 400;
+            }
+            .btn-search:hover {
+                background: #169e82;
+            }
+            .btn-outline {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                border: 1px solid #1ab394;
+                border-radius: 4px;
+                padding: 8px;
+                background: #fff;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 16px;
+                color: #1ab394;
+                font-weight: 400;
+            }
+            .btn-outline:hover {
+                background: #f0faf8;
+            }
+            .btn-outline svg {
+                width: 18px;
+                height: 18px;
+            }
+            .btn-primary {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                background: #1ab394;
+                border: none;
+                border-radius: 4px;
+                padding: 8px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 16px;
+                color: #fff;
+                font-weight: 400;
+            }
+            .btn-primary:hover {
+                background: #169e82;
+            }
+
+            /* ── TABLE ───────────────────────────────────── */
+            .table-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 16px;
+            }
+            .table-count {
+                font-size: 14px;
+                color: #75787b;
+                font-weight: 400;
+            }
+            .table-actions {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+            .table-wrapper {
+                background: #fff;
+                border-radius: 4px;
+                border: 1px solid #d9dcdf;
+                overflow: hidden;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            thead tr {
+                background: #edf0f3;
+            }
+            thead th {
+                padding: 16px;
+                font-size: 16px;
+                font-weight: 700;
+                color: #4d5053;
+                border-right: 1px solid #d9dcdf;
+                border-bottom: 1px solid #d9dcdf;
+                text-align: center;
+                white-space: nowrap;
+            }
+            thead th:last-child {
+                border-right: none;
+            }
+            tbody tr {
+                border-bottom: 1px solid #d9dcdf;
+            }
+            tbody tr:last-child {
+                border-bottom: none;
+            }
+            tbody tr:hover {
+                background: #f8fafb;
+            }
+            tbody td {
+                padding: 16px;
+                font-size: 16px;
+                color: #75787b;
+                border-right: 1px solid #d9dcdf;
+                text-align: center;
+                white-space: nowrap;
+            }
+            tbody td:last-child {
+                border-right: none;
+            }
+            .td-link {
+                color: #1ab394 !important;
+                cursor: pointer;
+            }
+            .td-link:hover {
+                text-decoration: underline;
+            }
+            .badge-on {
+                color: #1ab394;
+                font-weight: 700;
+            }
+            .badge-off {
+                color: #e74c3c;
+                font-weight: 700;
+            }
+
+            /* ── PAGINATION ──────────────────────────────── */
+            .pagination {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+                margin-top: 20px;
+            }
+            .pg-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 32px;
+                height: 32px;
+                border-radius: 4px;
+                border: 1px solid #d9dcdf;
+                background: #fff;
+                font-size: 14px;
+                color: #4d5053;
+                cursor: pointer;
+                transition: all 0.15s;
+                font-weight: 400;
+            }
+            .pg-btn:hover {
+                border-color: #1ab394;
+                color: #1ab394;
+            }
+            .pg-btn.active {
+                background: #1ab394;
+                border-color: #1ab394;
+                color: #fff;
+            }
+
+            ::-webkit-scrollbar {
+                width: 5px;
+                height: 5px;
+            }
+            ::-webkit-scrollbar-track {
+                background: #f0f2f5;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #c9cdd2;
+                border-radius: 3px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- ══ TOP NAV ══════════════════════════════════════════ -->
+        <nav class="top-nav">
+            <div class="logo" onclick="top.location.href = 'panel-info.html'">리서치이노션 CMS</div>
+            <div class="nav-items">
+                <a class="nav-item" href="calendar.html" target="_top">예약 캘린더</a>
+                <a class="nav-item" href="survey-list.html" target="_top">설문 관리</a>
+                <a class="nav-item active" href="panel-info.html" target="_top">패널 관리</a>
+                <a class="nav-item" href="homepage.html" target="_top">홈페이지 관리</a>
+                <a class="nav-item" href="board-notice.html" target="_top">통합 게시판 관리</a>
+                <a class="nav-item" href="content-list.html" target="_top">콘텐츠 관리</a>
+                <a class="nav-item" href="layout-main.html" target="_top">레이아웃 관리</a>
+                <a class="nav-item" href="system-admin.html" target="_top">시스템 관리</a>
+                <a class="nav-item" href="stats-panel.html" target="_top">통계</a>
+            </div>
+            <button class="logout-btn">
+                로그아웃
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                    <polyline points="16 17 21 12 16 7" />
+                    <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+            </button>
+        </nav>
+
+        <div class="layout">
+            <!-- ══ SIDEBAR ══════════════════════════════════════════ -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="sidebar-title">패널 관리</div>
+                    <div class="sidebar-toggle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <a class="sidebar-item active" href="panel-info.html" target="_top">패널 정보</a>
+                <a class="sidebar-item" href="panel-join-change.html" target="_top">가입 변경</a>
+                <a class="sidebar-item" href="panel-access.html" target="_top">패널 접속</a>
+                <a class="sidebar-item" href="panel-inquiry.html" target="_top">문의하기</a>
+                <a class="sidebar-item" href="panel-sms-history.html" target="_top">문자 발송 내역</a>
+            </aside>
+
+            <!-- ══ MAIN ═════════════════════════════════════════════ -->
+            <main class="main-content">
+                <h1 class="page-title">패널 정보</h1>
+                <div class="filter-box">
+                    <div class="filter-rows">
+                        <div class="filter-row">
+                            <div class="filter-control">
+                                <span class="filter-label">가입기간</span>
+                                <button class="date-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                                        <line x1="16" y1="2" x2="16" y2="6" />
+                                        <line x1="8" y1="2" x2="8" y2="6" />
+                                        <line x1="3" y1="10" x2="21" y2="10" />
+                                    </svg>
+                                    2025-02-27
+                                </button>
+                                <span class="filter-sep">-</span>
+                                <button class="date-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                                        <line x1="16" y1="2" x2="16" y2="6" />
+                                        <line x1="8" y1="2" x2="8" y2="6" />
+                                        <line x1="3" y1="10" x2="21" y2="10" />
+                                    </svg>
+                                    2025-02-27
+                                </button>
+                            </div>
+                            <div class="filter-control">
+                                <span class="filter-label">패널구분</span>
+                                <select class="sel">
+                                    <option>All</option>
+                                    <option>시내패널</option>
+                                    <option>시외패널</option>
+                                </select>
+                            </div>
+                            <div class="filter-control">
+                                <span class="filter-label">성별</span>
+                                <select class="sel">
+                                    <option>All</option>
+                                    <option>남자</option>
+                                    <option>여자</option>
+                                </select>
+                            </div>
+                            <div class="filter-control">
+                                <span class="filter-label">나이</span>
+                                <input type="text" class="txt-xs" />
+                                <span class="filter-sep">-</span>
+                                <input type="text" class="txt-xs" />
+                            </div>
+                            <div class="filter-control">
+                                <span class="filter-label">직업군</span>
+                                <select class="sel">
+                                    <option>All</option>
+                                    <option>전문직</option>
+                                    <option>사무직</option>
+                                    <option>서비스직</option>
+                                    <option>기타</option>
+                                </select>
+                            </div>
+                            <div class="filter-control">
+                                <span class="filter-label">가입경로</span>
+                                <select class="sel">
+                                    <option>All</option>
+                                    <option>홈페이지</option>
+                                    <option>SNS</option>
+                                    <option>기타</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-row">
+                            <div class="filter-control">
+                                <span class="filter-label">조사검색조건</span>
+                                <select class="sel">
+                                    <option>All</option>
+                                    <option>조사명</option>
+                                    <option>완료</option>
+                                    <option>미완료</option>
+                                </select>
+                            </div>
+                            <div class="filter-control">
+                                <span class="filter-label">상태</span>
+                                <select class="sel">
+                                    <option>All</option>
+                                    <option>사용</option>
+                                    <option>정지</option>
+                                    <option>탈퇴</option>
+                                </select>
+                            </div>
+                            <div class="filter-control">
+                                <span class="filter-label">조사명</span>
+                                <select class="sel" style="width: 200px">
+                                    <option>All</option>
+                                    <option>공원 시설 선호도 조사</option>
+                                    <option>시민 교통 불편 사항 조사</option>
+                                </select>
+                                <select class="sel">
+                                    <option>참여</option>
+                                    <option>미참여</option>
+                                </select>
+                            </div>
+                            <div class="filter-control">
+                                <span class="filter-label">패널명/아이디</span>
+                                <input type="text" class="txt-sm" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-actions">
+                        <button class="btn-reset">초기화</button>
+                        <button class="btn-search">조회</button>
+                    </div>
+                </div>
+                <div class="table-header">
+                    <span class="table-count">총 7건</span>
+                    <div class="table-actions">
+                        <button class="btn-outline">
+                            SMS 전송
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                        </button>
+                        <button class="btn-outline">
+                            다운로드
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                        </button>
+                        <button class="btn-outline">양식 다운로드</button>
+                        <button class="btn-primary">등록 +</button>
+                        <button class="btn-outline">일괄등록</button>
+                    </div>
+                </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 50px">NO</th>
+                                <th>가입 일시</th>
+                                <th>패널구분</th>
+                                <th>패널명</th>
+                                <th>아이디</th>
+                                <th>성별</th>
+                                <th>나이</th>
+                                <th>거주구</th>
+                                <th>직업군</th>
+                                <th>가입경로</th>
+                                <th>완료수</th>
+                                <th>추천인</th>
+                                <th>상태</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">7</td>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">2025-02-27 14:00:00</td>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">시외패널</td>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">홍길동</td>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">ghdrlfehd1234</td>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">남자</td>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">만 30</td>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">성동구</td>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">사무직</td>
+                                <td class="td-link" onclick="location.href = 'panel-detail.html'">공주시 홈페이지</td>
+                                <td>0</td>
+                                <td>-</td>
+                                <td class="badge-on">사용</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>2025-02-27 14:00:00</td>
+                                <td>시외패널</td>
+                                <td>홍길동</td>
+                                <td>ghdrlfehd1234</td>
+                                <td>남자</td>
+                                <td>만 30</td>
+                                <td>성동구</td>
+                                <td>사무직</td>
+                                <td>공주시 홈페이지</td>
+                                <td>0</td>
+                                <td>-</td>
+                                <td class="badge-on">사용</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>2025-02-27 14:00:00</td>
+                                <td>시내패널</td>
+                                <td>김영희</td>
+                                <td>kimyh0512</td>
+                                <td>여자</td>
+                                <td>만 28</td>
+                                <td>중구</td>
+                                <td>전문직</td>
+                                <td>SNS</td>
+                                <td>1</td>
+                                <td>-</td>
+                                <td class="badge-on">사용</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>2025-02-26 09:00:00</td>
+                                <td>시내패널</td>
+                                <td>이철수</td>
+                                <td>leecs8801</td>
+                                <td>남자</td>
+                                <td>만 45</td>
+                                <td>서초구</td>
+                                <td>서비스직</td>
+                                <td>홈페이지</td>
+                                <td>5</td>
+                                <td>-</td>
+                                <td class="badge-on">사용</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>2025-02-25 11:30:00</td>
+                                <td>시외패널</td>
+                                <td>박민수</td>
+                                <td>parkms77</td>
+                                <td>남자</td>
+                                <td>만 35</td>
+                                <td>강남구</td>
+                                <td>전문직</td>
+                                <td>홈페이지</td>
+                                <td>3</td>
+                                <td>홍길동</td>
+                                <td class="badge-on">사용</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>2025-02-24 16:00:00</td>
+                                <td>시내패널</td>
+                                <td>최지원</td>
+                                <td>choijw99</td>
+                                <td>여자</td>
+                                <td>만 22</td>
+                                <td>마포구</td>
+                                <td>기타</td>
+                                <td>SNS</td>
+                                <td>0</td>
+                                <td>-</td>
+                                <td class="badge-off">정지</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>2025-02-20 10:00:00</td>
+                                <td>시내패널</td>
+                                <td>정다은</td>
+                                <td>jungde88</td>
+                                <td>여자</td>
+                                <td>만 32</td>
+                                <td>송파구</td>
+                                <td>사무직</td>
+                                <td>홈페이지</td>
+                                <td>4</td>
+                                <td>-</td>
+                                <td class="badge-on">사용</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <button class="pg-btn active">1</button>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>
