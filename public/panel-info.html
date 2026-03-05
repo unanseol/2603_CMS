@@ -29,6 +29,52 @@
                 padding: 0;
             }
 
+            /* ── CONTAINER SYSTEM ────────────────────────── */
+            .container {
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            /* xs: None (auto) - default, no max-width */
+
+            /* sm: ≥576px */
+            @media (min-width: 576px) {
+                .container {
+                    max-width: 540px;
+                }
+            }
+
+            /* md: ≥768px */
+            @media (min-width: 768px) {
+                .container {
+                    max-width: 720px;
+                }
+            }
+
+            /* lg: ≥992px */
+            @media (min-width: 992px) {
+                .container {
+                    max-width: 960px;
+                }
+            }
+
+            /* xl: ≥1200px */
+            @media (min-width: 1200px) {
+                .container {
+                    max-width: 1140px;
+                }
+            }
+
+            /* xxl: ≥1400px */
+            @media (min-width: 1400px) {
+                .container {
+                    max-width: 1320px;
+                }
+            }
+
             /* ── TOP NAV ─────────────────────────────────── */
             .top-nav {
                 position: fixed;
@@ -52,6 +98,9 @@
                 white-space: nowrap;
                 cursor: pointer;
                 flex-shrink: 0;
+                display: flex;
+                align-items: center;
+                gap: 6px;
             }
             .nav-items {
                 display: flex;
@@ -92,25 +141,40 @@
             .logout-btn {
                 display: flex;
                 align-items: center;
+                justify-content: center;
                 gap: 4px;
+                padding: 8px;
+                border-radius: 4px;
                 background: #75787b;
                 color: #fff;
-                border: none;
-                padding: 8px 12px;
-                border-radius: 4px;
-                cursor: pointer;
-                font-family: inherit;
                 font-size: 16px;
-                white-space: nowrap;
-                flex-shrink: 0;
                 font-weight: 400;
+                cursor: pointer;
+                border: none;
+                font-family: inherit;
+                width: 176px;
+                height: 40px;
             }
             .logout-btn:hover {
-                background: #62656a;
+                background: #5e6164;
             }
             .logout-btn svg {
                 width: 20px;
                 height: 20px;
+            }
+
+            /* Mobile Menu Toggle */
+            .mobile-menu-toggle {
+                display: none;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 8px;
+            }
+            .mobile-menu-toggle svg {
+                width: 24px;
+                height: 24px;
+                stroke: #4d5053;
             }
 
             /* ── LAYOUT ──────────────────────────────────── */
@@ -118,6 +182,7 @@
                 display: flex;
                 padding-top: 72px;
                 min-height: 100vh;
+                background: #edf0f3;
             }
 
             /* ── SIDEBAR ─────────────────────────────────── */
@@ -135,27 +200,28 @@
                 flex-direction: column;
                 gap: 8px;
                 overflow-y: auto;
+                transition: transform 0.3s ease;
             }
             .sidebar-header {
                 display: flex;
-                align-items: flex-start;
+                align-items: center;
                 justify-content: space-between;
-                padding: 8px;
+                padding: 0 8px;
                 margin-bottom: 0;
             }
-            .sidebar-title {
+            .sidebar-header h3 {
                 font-size: 18px;
                 font-weight: 700;
                 color: #4d5053;
             }
-            .sidebar-toggle {
-                cursor: pointer;
-                color: #4d5053;
+            .sidebar-header .toggle-icon {
                 width: 24px;
                 height: 24px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                transform: rotate(90deg);
+                cursor: pointer;
             }
             .sidebar-item {
                 padding: 8px;
@@ -172,11 +238,22 @@
             }
             .sidebar-item:hover {
                 background: #edf0f3;
-                color: #4d5053;
             }
             .sidebar-item.active {
                 background: #edf0f3;
-                color: #4d5053;
+                color: #75787b;
+            }
+
+            /* Sidebar Overlay for Mobile */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 72px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 99;
             }
 
             /* ── MAIN ────────────────────────────────────── */
@@ -186,6 +263,7 @@
                 padding: 32px 36px 40px;
                 min-width: 0;
                 background: #edf0f3;
+                transition: margin-left 0.3s ease;
             }
             .page-title {
                 font-size: 24px;
@@ -200,7 +278,7 @@
                 border-radius: 4px;
                 padding: 16px 24px;
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 justify-content: space-between;
                 gap: 16px;
                 margin-bottom: 16px;
@@ -229,6 +307,7 @@
                 display: flex;
                 align-items: center;
                 gap: 8px;
+                flex-wrap: wrap;
             }
             .date-btn {
                 display: flex;
@@ -282,6 +361,7 @@
                 color: #4d5053;
                 outline: none;
                 height: 25px;
+                max-width: 100%;
             }
             .txt-sm:focus {
                 border-color: #1ab394;
@@ -304,6 +384,7 @@
                 display: flex;
                 gap: 8px;
                 flex-shrink: 0;
+                flex-wrap: wrap;
             }
             .btn-reset {
                 border: 1px solid #75787b;
@@ -346,6 +427,7 @@
                 font-size: 16px;
                 color: #1ab394;
                 font-weight: 400;
+                white-space: nowrap;
             }
             .btn-outline:hover {
                 background: #f0faf8;
@@ -367,6 +449,7 @@
                 font-size: 16px;
                 color: #fff;
                 font-weight: 400;
+                white-space: nowrap;
             }
             .btn-primary:hover {
                 background: #169e82;
@@ -378,6 +461,8 @@
                 align-items: center;
                 justify-content: space-between;
                 margin-bottom: 16px;
+                flex-wrap: wrap;
+                gap: 12px;
             }
             .table-count {
                 font-size: 14px;
@@ -393,12 +478,13 @@
                 background: #fff;
                 border-radius: 4px;
                 border: 1px solid #d9dcdf;
-                overflow: hidden;
+                overflow-x: auto;
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
+                min-width: 800px;
             }
             thead tr {
                 background: #edf0f3;
@@ -485,6 +571,7 @@
                 color: #fff;
             }
 
+            /* ── SCROLLBAR ───────────────────────────────── */
             ::-webkit-scrollbar {
                 width: 5px;
                 height: 5px;
@@ -496,22 +583,291 @@
                 background: #c9cdd2;
                 border-radius: 3px;
             }
+
+            /* ══════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS
+    ══════════════════════════════════════════════ */
+
+            /* ── TABLET & BELOW (lg: <992px) ────────────── */
+            @media (max-width: 991px) {
+                .nav-item {
+                    padding: 0 16px;
+                    font-size: 16px;
+                }
+
+                .main-content {
+                    margin-left: 0;
+                    padding: 24px 20px;
+                }
+
+                .sidebar {
+                    transform: translateX(-100%);
+                }
+
+                .sidebar.open {
+                    transform: translateX(0);
+                }
+
+                .sidebar-overlay.show {
+                    display: block;
+                }
+
+                .mobile-menu-toggle {
+                    display: block;
+                }
+
+                .page-title {
+                    font-size: 20px;
+                }
+
+                .filter-box {
+                    padding: 16px;
+                }
+
+                .filter-row {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 12px;
+                }
+
+                .filter-control {
+                    width: 100%;
+                }
+
+                .btn-actions {
+                    width: 100%;
+                    justify-content: stretch;
+                }
+
+                .btn-reset,
+                .btn-search {
+                    flex: 1;
+                }
+
+                .table-header {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .table-actions {
+                    width: 100%;
+                }
+
+                table {
+                    font-size: 14px;
+                }
+
+                thead th,
+                tbody td {
+                    padding: 12px 8px;
+                    font-size: 14px;
+                }
+            }
+
+            /* ── MOBILE (md: <768px) ────────────────────── */
+            @media (max-width: 767px) {
+                .top-nav {
+                    padding: 0 12px;
+                }
+
+                .logo {
+                    font-size: 14px;
+                }
+
+                .nav-items {
+                    display: none;
+                }
+
+                .logout-btn {
+                    width: auto;
+                    padding: 8px 12px;
+                    font-size: 14px;
+                }
+
+                .logout-btn svg {
+                    display: none;
+                }
+
+                .main-content {
+                    padding: 16px 12px;
+                }
+
+                .page-title {
+                    font-size: 18px;
+                    margin-bottom: 16px;
+                }
+
+                .filter-box {
+                    padding: 12px;
+                }
+
+                .filter-label {
+                    font-size: 13px;
+                }
+
+                .date-btn,
+                .sel,
+                .txt-sm,
+                .txt-xs {
+                    font-size: 13px;
+                }
+
+                .btn-reset,
+                .btn-search {
+                    font-size: 14px;
+                    padding: 8px 12px;
+                }
+
+                .table-count {
+                    font-size: 13px;
+                }
+
+                .btn-outline,
+                .btn-primary {
+                    font-size: 14px;
+                    padding: 8px 12px;
+                }
+
+                .btn-outline svg {
+                    width: 16px;
+                    height: 16px;
+                }
+
+                table {
+                    min-width: 600px;
+                    font-size: 13px;
+                }
+
+                thead th,
+                tbody td {
+                    padding: 10px 6px;
+                    font-size: 13px;
+                }
+            }
+
+            /* ── SMALL MOBILE (sm: <576px) ──────────────── */
+            @media (max-width: 575px) {
+                .top-nav {
+                    height: 60px;
+                    padding: 0 10px;
+                }
+
+                .layout {
+                    padding-top: 60px;
+                }
+
+                .sidebar {
+                    top: 60px;
+                }
+
+                .sidebar-overlay {
+                    top: 60px;
+                }
+
+                .logo {
+                    font-size: 13px;
+                }
+
+                .logout-btn {
+                    font-size: 13px;
+                    padding: 6px 10px;
+                    height: 32px;
+                }
+
+                .main-content {
+                    padding: 12px 10px;
+                }
+
+                .page-title {
+                    font-size: 16px;
+                    margin-bottom: 12px;
+                }
+
+                .filter-box {
+                    padding: 10px;
+                }
+
+                .filter-label {
+                    font-size: 12px;
+                }
+
+                .date-btn,
+                .sel,
+                .txt-sm,
+                .txt-xs {
+                    font-size: 12px;
+                    height: 24px;
+                }
+
+                .btn-actions {
+                    gap: 6px;
+                }
+
+                .btn-reset,
+                .btn-search {
+                    font-size: 13px;
+                    padding: 6px 10px;
+                }
+
+                .table-header {
+                    margin-bottom: 12px;
+                    gap: 8px;
+                }
+
+                .table-count {
+                    font-size: 12px;
+                }
+
+                .table-actions {
+                    gap: 6px;
+                }
+
+                .btn-outline,
+                .btn-primary {
+                    font-size: 13px;
+                    padding: 6px 10px;
+                }
+
+                table {
+                    min-width: 500px;
+                    font-size: 12px;
+                }
+
+                thead th,
+                tbody td {
+                    padding: 8px 4px;
+                    font-size: 12px;
+                }
+
+                .pg-btn {
+                    width: 28px;
+                    height: 28px;
+                    font-size: 12px;
+                }
+            }
         </style>
     </head>
     <body>
         <!-- ══ TOP NAV ══════════════════════════════════════════ -->
         <nav class="top-nav">
-            <div class="logo" onclick="top.location.href = 'panel-info.html'">리서치이노션 CMS</div>
+            <button class="mobile-menu-toggle" onclick="toggleSidebar()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo" onclick="location.href = 'panel-info.html'">리서치이노션 CMS</div>
             <div class="nav-items">
-                <a class="nav-item" href="calendar.html" target="_top">예약 캘린더</a>
-                <a class="nav-item" href="survey-list.html" target="_top">설문 관리</a>
-                <a class="nav-item active" href="panel-info.html" target="_top">패널 관리</a>
-                <a class="nav-item" href="homepage.html" target="_top">홈페이지 관리</a>
-                <a class="nav-item" href="board-notice.html" target="_top">통합 게시판 관리</a>
-                <a class="nav-item" href="content-list.html" target="_top">콘텐츠 관리</a>
-                <a class="nav-item" href="layout-main.html" target="_top">레이아웃 관리</a>
-                <a class="nav-item" href="system-admin.html" target="_top">시스템 관리</a>
-                <a class="nav-item" href="stats-panel.html" target="_top">통계</a>
+                <a class="nav-item" href="calendar.html">예약 캘린더</a>
+                <a class="nav-item" href="survey-list.html">설문 관리</a>
+                <a class="nav-item active" href="panel-info.html">패널 관리</a>
+                <a class="nav-item" href="homepage.html">홈페이지 관리</a>
+                <a class="nav-item" href="board-notice.html">통합 게시판 관리</a>
+                <a class="nav-item" href="content-list.html">콘텐츠 관리</a>
+                <a class="nav-item" href="layout-main.html">레이아웃 관리</a>
+                <a class="nav-item" href="system-admin.html">시스템 관리</a>
+                <a class="nav-item" href="stats-panel.html">통계</a>
             </div>
             <button class="logout-btn">
                 로그아웃
@@ -523,22 +879,25 @@
             </button>
         </nav>
 
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
         <div class="layout">
             <!-- ══ SIDEBAR ══════════════════════════════════════════ -->
             <aside class="sidebar">
                 <div class="sidebar-header">
-                    <div class="sidebar-title">패널 관리</div>
-                    <div class="sidebar-toggle">
+                    <h3>패널 관리</h3>
+                    <div class="toggle-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="6 9 12 15 18 9"></polyline>
                         </svg>
                     </div>
                 </div>
-                <a class="sidebar-item active" href="panel-info.html" target="_top">패널 정보</a>
-                <a class="sidebar-item" href="panel-join-change.html" target="_top">가입 변경</a>
-                <a class="sidebar-item" href="panel-access.html" target="_top">패널 접속</a>
-                <a class="sidebar-item" href="panel-inquiry.html" target="_top">문의하기</a>
-                <a class="sidebar-item" href="panel-sms-history.html" target="_top">문자 발송 내역</a>
+                <a class="sidebar-item active" href="panel-info.html">패널 정보</a>
+                <a class="sidebar-item" href="panel-join-change.html">가입 변경</a>
+                <a class="sidebar-item" href="panel-access.html">패널 접속</a>
+                <a class="sidebar-item" href="panel-inquiry.html">문의하기</a>
+                <a class="sidebar-item" href="panel-sms-history.html">문자 발송 내역</a>
             </aside>
 
             <!-- ══ MAIN ═════════════════════════════════════════════ -->
@@ -632,7 +991,7 @@
                             </div>
                             <div class="filter-control">
                                 <span class="filter-label">조사명</span>
-                                <select class="sel" style="width: 200px">
+                                <select class="sel" style="width: 200px; max-width: 100%">
                                     <option>All</option>
                                     <option>공원 시설 선호도 조사</option>
                                     <option>시민 교통 불편 사항 조사</option>
@@ -808,5 +1167,24 @@
                 </div>
             </main>
         </div>
+
+        <script>
+            function toggleSidebar() {
+                const sidebar = document.querySelector(".sidebar");
+                const overlay = document.querySelector(".sidebar-overlay");
+
+                sidebar.classList.toggle("open");
+                overlay.classList.toggle("show");
+            }
+
+            // Close sidebar when clicking a link
+            document.querySelectorAll(".sidebar-item").forEach((item) => {
+                item.addEventListener("click", () => {
+                    if (window.innerWidth <= 991) {
+                        toggleSidebar();
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
