@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>가입 변경 - 리서치이노션 CMS</title>
+        <title>패널 정보 - 리서치이노션 CMS</title>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -100,6 +100,50 @@
                 width: 20px;
                 height: 20px;
             }
+
+            /* 햄버거 메뉴 버튼 */
+            .hamburger {
+                display: none;
+                flex-direction: column;
+                gap: 4px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 8px;
+            }
+            .hamburger span {
+                display: block;
+                width: 24px;
+                height: 3px;
+                background: #4d5053;
+                transition: all 0.3s;
+                border-radius: 2px;
+            }
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+
+            /* 오버레이 */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 150;
+            }
+            .overlay.active {
+                display: block;
+            }
+
             .layout {
                 display: flex;
                 padding-top: 72px;
@@ -119,6 +163,7 @@
                 flex-direction: column;
                 gap: 8px;
                 overflow-y: auto;
+                transition: transform 0.3s;
             }
             .sidebar-header {
                 display: flex;
@@ -136,7 +181,7 @@
                 color: #4d5053;
                 width: 24px;
                 height: 24px;
-                display: flex;
+                display: none;
                 align-items: center;
                 justify-content: center;
             }
@@ -173,228 +218,27 @@
                 color: #4d5053;
                 margin-bottom: 24px;
             }
-            .filter-box {
+            .placeholder-box {
                 background: #fff;
-                border-radius: 4px;
-                padding: 16px 24px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                gap: 16px;
-                margin-bottom: 16px;
-                flex-wrap: wrap;
+                border-radius: 8px;
+                border: 1px dashed #d9dcdf;
+                padding: 60px 40px;
+                text-align: center;
+                color: #9da0a3;
                 box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
             }
-            .filter-rows {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-                flex: 1;
-            }
-            .filter-row {
-                display: flex;
-                align-items: center;
-                gap: 16px;
-                flex-wrap: wrap;
-            }
-            .filter-label {
-                font-size: 14px;
-                font-weight: 700;
-                color: #75787b;
-                white-space: nowrap;
-            }
-            .filter-control {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-            .date-btn {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                border: 1px solid #d9dcdf;
-                border-radius: 4px;
-                padding: 2px 8px;
-                background: #fff;
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 14px;
-                color: #9da0a3;
-                height: 25px;
-            }
-            .date-btn svg {
-                width: 14px;
-                height: 14px;
-            }
-            .filter-sep {
-                font-size: 14px;
-                color: #9da0a3;
-            }
-            .sel {
-                border: 1px solid #d9dcdf;
-                border-radius: 4px;
-                padding: 2px 8px;
-                background: #fff;
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 14px;
-                color: #9da0a3;
-                appearance: none;
-                padding-right: 26px;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239DA0A3' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-                background-repeat: no-repeat;
-                background-position: right 6px center;
-                height: 25px;
-            }
-            .txt-sm {
-                border: 1px solid #d9dcdf;
-                border-radius: 4px;
-                padding: 2px 8px;
-                width: 118px;
-                font-family: inherit;
-                font-size: 14px;
-                color: #4d5053;
-                outline: none;
-                height: 25px;
-            }
-            .btn-actions {
-                display: flex;
-                gap: 8px;
-            }
-            .btn-reset {
-                border: 1px solid #75787b;
-                border-radius: 4px;
-                padding: 8px;
-                background: #fff;
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 16px;
-                color: #75787b;
-                font-weight: 400;
-            }
-            .btn-search {
-                background: #1ab394;
-                border: none;
-                border-radius: 4px;
-                padding: 8px;
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 16px;
-                color: #fff;
-                font-weight: 400;
-            }
-            .btn-outline {
-                display: inline-flex;
-                align-items: center;
-                gap: 4px;
-                border: 1px solid #1ab394;
-                border-radius: 4px;
-                padding: 8px;
-                background: #fff;
-                cursor: pointer;
-                font-family: inherit;
-                font-size: 16px;
-                color: #1ab394;
-                font-weight: 400;
-            }
-            .btn-outline svg {
-                width: 18px;
-                height: 18px;
-            }
-            .table-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
+            .placeholder-box svg {
+                width: 48px;
+                height: 48px;
                 margin-bottom: 16px;
+                color: #d9dcdf;
             }
-            .table-count {
-                font-size: 14px;
-                color: #75787b;
-            }
-            .table-actions {
-                display: flex;
-                gap: 8px;
-                flex-wrap: wrap;
-            }
-            .table-wrapper {
-                background: #fff;
-                border-radius: 4px;
-                border: 1px solid #d9dcdf;
-                overflow: hidden;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-            }
-            table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            thead tr {
-                background: #edf0f3;
-            }
-            thead th {
-                padding: 16px;
+            .placeholder-box p {
                 font-size: 16px;
-                font-weight: 700;
-                color: #4d5053;
-                border-right: 1px solid #d9dcdf;
-                border-bottom: 1px solid #d9dcdf;
-                text-align: center;
-                white-space: nowrap;
+                font-weight: 500;
             }
-            thead th:last-child {
-                border-right: none;
-            }
-            tbody tr {
-                border-bottom: 1px solid #d9dcdf;
-            }
-            tbody tr:last-child {
-                border-bottom: none;
-            }
-            tbody tr:hover {
-                background: #f8fafb;
-            }
-            tbody td {
-                padding: 16px;
-                font-size: 16px;
-                color: #75787b;
-                border-right: 1px solid #d9dcdf;
-                text-align: center;
-                white-space: nowrap;
-            }
-            tbody td:last-child {
-                border-right: none;
-            }
-            .pagination {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 4px;
-                margin-top: 20px;
-            }
-            .pg-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 32px;
-                height: 32px;
-                border-radius: 4px;
-                border: 1px solid #d9dcdf;
-                background: #fff;
+            .placeholder-box span {
                 font-size: 14px;
-                color: #4d5053;
-                cursor: pointer;
-            }
-            .pg-btn:hover {
-                border-color: #1ab394;
-                color: #1ab394;
-            }
-            .pg-btn.active {
-                background: #1ab394;
-                border-color: #1ab394;
-                color: #fff;
-            }
-            .pg-btn svg {
-                width: 14px;
-                height: 14px;
             }
             ::-webkit-scrollbar {
                 width: 5px;
@@ -407,10 +251,127 @@
                 background: #c9cdd2;
                 border-radius: 3px;
             }
+
+            /* 반응형 미디어 쿼리 */
+            @media (max-width: 1024px) {
+                .nav-items {
+                    display: none;
+                }
+                .hamburger {
+                    display: flex;
+                }
+
+                .sidebar {
+                    transform: translateX(-100%);
+                    top: 72px;
+                    z-index: 160;
+                }
+                .sidebar.active {
+                    transform: translateX(0);
+                }
+                .sidebar-toggle {
+                    display: flex;
+                }
+
+                .main-content {
+                    margin-left: 0;
+                    padding: 24px 20px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .top-nav {
+                    height: 60px;
+                    padding: 0 16px;
+                }
+                .logo {
+                    font-size: 14px;
+                }
+                .logout-btn {
+                    font-size: 14px;
+                    padding: 6px 10px;
+                }
+                .logout-btn svg {
+                    width: 18px;
+                    height: 18px;
+                }
+
+                .layout {
+                    padding-top: 60px;
+                }
+                .sidebar {
+                    top: 60px;
+                    width: 280px;
+                }
+
+                .main-content {
+                    padding: 20px 16px;
+                }
+                .page-title {
+                    font-size: 20px;
+                    margin-bottom: 20px;
+                }
+                .placeholder-box {
+                    padding: 40px 24px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .top-nav {
+                    height: 56px;
+                    padding: 0 12px;
+                }
+                .logo {
+                    font-size: 13px;
+                }
+                .logout-btn {
+                    font-size: 0;
+                    padding: 8px;
+                }
+                .logout-btn svg {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                .layout {
+                    padding-top: 56px;
+                }
+                .sidebar {
+                    top: 56px;
+                    width: 260px;
+                }
+
+                .main-content {
+                    padding: 16px 12px;
+                }
+                .page-title {
+                    font-size: 18px;
+                    margin-bottom: 16px;
+                }
+                .placeholder-box {
+                    padding: 32px 20px;
+                }
+                .placeholder-box svg {
+                    width: 40px;
+                    height: 40px;
+                    margin-bottom: 12px;
+                }
+                .placeholder-box p {
+                    font-size: 15px;
+                }
+                .placeholder-box span {
+                    font-size: 13px;
+                }
+            }
         </style>
     </head>
     <body>
         <nav class="top-nav">
+            <button class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <div class="logo" onclick="top.location.href = 'panel-info.html'">리서치이노션 CMS</div>
             <div class="nav-items">
                 <a class="nav-item" href="calendar.html" target="_top">예약 캘린더</a>
@@ -433,221 +394,67 @@
             </button>
         </nav>
 
+        <div class="overlay" onclick="closeMobileMenu()"></div>
+
         <div class="layout">
             <aside class="sidebar">
                 <div class="sidebar-header">
                     <div class="sidebar-title">패널 관리</div>
-                    <div class="sidebar-toggle">
+                    <div class="sidebar-toggle" onclick="closeMobileMenu()">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="6 9 12 15 18 9"></polyline>
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
                     </div>
                 </div>
-                <a class="sidebar-item" href="panel-info.html" target="_top">패널 정보</a>
-                <a class="sidebar-item active" href="panel-join-change.html" target="_top">가입 변경</a>
+                <a class="sidebar-item active" href="panel-info.html" target="_top">패널 정보</a>
+                <a class="sidebar-item" href="panel-join-change.html" target="_top">가입 변경</a>
                 <a class="sidebar-item" href="panel-access.html" target="_top">패널 접속</a>
                 <a class="sidebar-item" href="panel-inquiry.html" target="_top">문의하기</a>
                 <a class="sidebar-item" href="panel-sms-history.html" target="_top">문자 발송 내역</a>
             </aside>
 
             <main class="main-content">
-                <h1 class="page-title">가입 변경</h1>
-                <div class="filter-box">
-                    <div class="filter-rows">
-                        <div class="filter-row">
-                            <div class="filter-control">
-                                <span class="filter-label">변경일</span>
-                                <button class="date-btn">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="4" width="18" height="18" rx="2" />
-                                        <line x1="16" y1="2" x2="16" y2="6" />
-                                        <line x1="8" y1="2" x2="8" y2="6" />
-                                        <line x1="3" y1="10" x2="21" y2="10" />
-                                    </svg>
-                                    2025-02-27
-                                </button>
-                                <span class="filter-sep">-</span>
-                                <button class="date-btn">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="4" width="18" height="18" rx="2" />
-                                        <line x1="16" y1="2" x2="16" y2="6" />
-                                        <line x1="8" y1="2" x2="8" y2="6" />
-                                        <line x1="3" y1="10" x2="21" y2="10" />
-                                    </svg>
-                                    2025-02-27
-                                </button>
-                            </div>
-                            <div class="filter-control">
-                                <span class="filter-label">변경구분</span>
-                                <select class="sel">
-                                    <option>All</option>
-                                    <option>가입</option>
-                                    <option>정지</option>
-                                    <option>탈퇴</option>
-                                </select>
-                            </div>
-                            <div class="filter-control">
-                                <span class="filter-label">패널명/아이디/변경자</span>
-                                <input type="text" class="txt-sm" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btn-actions">
-                        <button class="btn-reset">초기화</button>
-                        <button class="btn-search">조회</button>
-                    </div>
-                </div>
-                <div class="table-header">
-                    <span class="table-count">총 191건</span>
-                    <div class="table-actions">
-                        <button class="btn-outline">
-                            다운로드
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                                <polyline points="7 10 12 15 17 10" />
-                                <line x1="12" y1="15" x2="12" y2="3" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th style="width: 70px">NO</th>
-                                <th>변경 일시</th>
-                                <th>패널명</th>
-                                <th>아이디</th>
-                                <th>변경구분</th>
-                                <th>변경사유</th>
-                                <th>변경자</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>191</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>가입</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                            <tr>
-                                <td>190</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>가입</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                            <tr>
-                                <td>189</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>사용</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                            <tr>
-                                <td>188</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>사용</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                            <tr>
-                                <td>187</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>사용</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                            <tr>
-                                <td>186</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>사용</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                            <tr>
-                                <td>185</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>정보변경</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                            <tr>
-                                <td>184</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>정보변경</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                            <tr>
-                                <td>183</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>정보변경</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                            <tr>
-                                <td>182</td>
-                                <td>2025-02-27 14:00:00</td>
-                                <td>홍길동</td>
-                                <td>ghdrlfehd1234</td>
-                                <td>정보변경</td>
-                                <td>-</td>
-                                <td>홍길동</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="pagination">
-                    <button class="pg-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="11 17 6 12 11 7"></polyline>
-                            <polyline points="18 17 13 12 18 7"></polyline>
-                        </svg>
-                    </button>
-                    <button class="pg-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </button>
-                    <button class="pg-btn active">1</button>
-                    <button class="pg-btn">2</button>
-                    <button class="pg-btn">3</button>
-                    <button class="pg-btn">4</button>
-                    <button class="pg-btn">5</button>
-                    <button class="pg-btn">6</button>
-                    <button class="pg-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </button>
-                    <button class="pg-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="13 17 18 12 13 7"></polyline>
-                            <polyline points="6 17 11 12 6 7"></polyline>
-                        </svg>
-                    </button>
+                <h1 class="page-title">패널 정보</h1>
+                <div class="placeholder-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    <p>패널 정보</p>
+                    <br />
+                    <span>패널 목록과 상세 정보를 관리합니다.</span>
                 </div>
             </main>
         </div>
+
+        <script>
+            function toggleMobileMenu() {
+                const sidebar = document.querySelector(".sidebar");
+                const overlay = document.querySelector(".overlay");
+                const hamburger = document.querySelector(".hamburger");
+
+                sidebar.classList.toggle("active");
+                overlay.classList.toggle("active");
+                hamburger.classList.toggle("active");
+            }
+
+            function closeMobileMenu() {
+                const sidebar = document.querySelector(".sidebar");
+                const overlay = document.querySelector(".overlay");
+                const hamburger = document.querySelector(".hamburger");
+
+                sidebar.classList.remove("active");
+                overlay.classList.remove("active");
+                hamburger.classList.remove("active");
+            }
+
+            // ESC 키로 메뉴 닫기
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") {
+                    closeMobileMenu();
+                }
+            });
+        </script>
     </body>
 </html>
