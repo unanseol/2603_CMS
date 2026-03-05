@@ -26,6 +26,41 @@
                 background: #edf0f3;
                 min-height: 100vh;
             }
+
+            /* ── CONTAINER SYSTEM ────────────────────────── */
+            .container {
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            @media (min-width: 576px) {
+                .container {
+                    max-width: 540px;
+                }
+            }
+            @media (min-width: 768px) {
+                .container {
+                    max-width: 720px;
+                }
+            }
+            @media (min-width: 992px) {
+                .container {
+                    max-width: 960px;
+                }
+            }
+            @media (min-width: 1200px) {
+                .container {
+                    max-width: 1140px;
+                }
+            }
+            @media (min-width: 1400px) {
+                .container {
+                    max-width: 1320px;
+                }
+            }
+
             .top-nav {
                 position: fixed;
                 top: 0;
@@ -46,6 +81,7 @@
                 font-weight: 700;
                 color: #1ab394;
                 cursor: pointer;
+                flex-shrink: 0;
             }
             .nav-items {
                 display: flex;
@@ -66,6 +102,7 @@
                 position: relative;
                 transition: color 0.15s;
                 text-decoration: none;
+                white-space: nowrap;
             }
             .nav-item:hover {
                 color: #1ab394;
@@ -85,21 +122,41 @@
             .logout-btn {
                 display: flex;
                 align-items: center;
+                justify-content: center;
                 gap: 4px;
+                padding: 8px;
+                border-radius: 4px;
                 background: #75787b;
                 color: #fff;
                 border: none;
-                padding: 8px 12px;
-                border-radius: 4px;
                 cursor: pointer;
                 font-family: inherit;
                 font-size: 16px;
                 font-weight: 400;
+                width: 176px;
+                height: 40px;
+            }
+            .logout-btn:hover {
+                background: #5e6164;
             }
             .logout-btn svg {
                 width: 20px;
                 height: 20px;
             }
+
+            .mobile-menu-toggle {
+                display: none;
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 8px;
+            }
+            .mobile-menu-toggle svg {
+                width: 24px;
+                height: 24px;
+                stroke: #4d5053;
+            }
+
             .layout {
                 display: flex;
                 padding-top: 72px;
@@ -138,21 +195,116 @@
             .placeholder-box span {
                 font-size: 14px;
             }
+
+            /* ══════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS
+    ══════════════════════════════════════════════ */
+
+            @media (max-width: 991px) {
+                .nav-item {
+                    padding: 0 16px;
+                    font-size: 16px;
+                }
+                .main-content {
+                    padding: 24px 20px;
+                }
+                .mobile-menu-toggle {
+                    display: block;
+                }
+                .page-title {
+                    font-size: 20px;
+                }
+            }
+
+            @media (max-width: 767px) {
+                .top-nav {
+                    padding: 0 12px;
+                }
+                .logo {
+                    font-size: 14px;
+                }
+                .nav-items {
+                    display: none;
+                }
+                .logout-btn {
+                    width: auto;
+                    padding: 8px 12px;
+                    font-size: 14px;
+                }
+                .logout-btn svg {
+                    display: none;
+                }
+                .main-content {
+                    padding: 16px 12px;
+                }
+                .page-title {
+                    font-size: 18px;
+                    margin-bottom: 16px;
+                }
+                .placeholder-box {
+                    padding: 40px 20px;
+                }
+                .placeholder-box svg {
+                    width: 40px;
+                    height: 40px;
+                }
+                .placeholder-box p {
+                    font-size: 14px;
+                }
+                .placeholder-box span {
+                    font-size: 13px;
+                }
+            }
+
+            @media (max-width: 575px) {
+                .top-nav {
+                    height: 60px;
+                    padding: 0 10px;
+                }
+                .layout {
+                    padding-top: 60px;
+                }
+                .logo {
+                    font-size: 13px;
+                }
+                .logout-btn {
+                    font-size: 13px;
+                    padding: 6px 10px;
+                    height: 32px;
+                }
+                .main-content {
+                    padding: 12px 10px;
+                }
+                .page-title {
+                    font-size: 16px;
+                    margin-bottom: 12px;
+                }
+                .placeholder-box {
+                    padding: 30px 15px;
+                }
+            }
         </style>
     </head>
     <body>
         <nav class="top-nav">
-            <div class="logo" onclick="top.location.href = 'panel-info.html'">리서치이노션 CMS</div>
+            <button class="mobile-menu-toggle" style="visibility: hidden">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="logo" onclick="location.href = 'panel-info.html'">리서치이노션 CMS</div>
             <div class="nav-items">
-                <a class="nav-item" href="calendar.html" target="_top">예약 캘린더</a>
-                <a class="nav-item" href="survey-list.html" target="_top">설문 관리</a>
-                <a class="nav-item" href="panel-info.html" target="_top">패널 관리</a>
-                <a class="nav-item" href="homepage.html" target="_top">홈페이지 관리</a>
-                <a class="nav-item active" href="board-notice.html" target="_top">통합 게시판 관리</a>
-                <a class="nav-item" href="content-list.html" target="_top">콘텐츠 관리</a>
-                <a class="nav-item" href="layout-main.html" target="_top">레이아웃 관리</a>
-                <a class="nav-item" href="system-admin.html" target="_top">시스템 관리</a>
-                <a class="nav-item" href="stats-panel.html" target="_top">통계</a>
+                <a class="nav-item" href="calendar.html">예약 캘린더</a>
+                <a class="nav-item" href="survey-list.html">설문 관리</a>
+                <a class="nav-item" href="panel-info.html">패널 관리</a>
+                <a class="nav-item" href="homepage.html">홈페이지 관리</a>
+                <a class="nav-item active" href="board-notice.html">통합 게시판 관리</a>
+                <a class="nav-item" href="content-list.html">콘텐츠 관리</a>
+                <a class="nav-item" href="layout-main.html">레이아웃 관리</a>
+                <a class="nav-item" href="system-admin.html">시스템 관리</a>
+                <a class="nav-item" href="stats-panel.html">통계</a>
             </div>
             <button class="logout-btn">
                 로그아웃
